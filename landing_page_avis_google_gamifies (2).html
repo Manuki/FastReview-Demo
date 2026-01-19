@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastReview – Avis Google gamifiés</title>
+
+  <style>
+    :root {
+      --blue: #4285F4;
+      --red: #DB4437;
+      --yellow: #F4B400;
+      --green: #0F9D58;
+      --dark: #202124;
+      --light: #f1f3f4;
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--dark);
+      line-height: 1.6;
+      background: linear-gradient(180deg, #f8f9fa, #e8f0fe);(180deg, #f8f9fa, #eef1f5);
+    }
+
+    header {
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      color: white;
+      padding: 4rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    .topbar {
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+    }
+
+    .logo-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg,var(--red),var(--yellow),var(--green),var(--blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+    }
+
+    .lang-toggle button {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.7rem;
+      margin-left: 0.3rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .lang-toggle button.active {
+      background: var(--yellow);
+      color: #000;
+    }
+
+    header h1 { font-size: 2.4rem; margin-bottom: 1rem; }
+    header p { font-size: 1.2rem; max-width: 900px; margin: 0 auto 2rem; }
+
+    .cta-button {
+      background: var(--yellow);
+      color: #000;
+      padding: 1rem 2.2rem;
+      font-weight: 700;
+      border-radius: 999px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    section {
+      padding: 3rem 1.2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--blue); }
+
+    .card {
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      padding: 2rem;
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(66,133,244,0.12);
+      margin-bottom: 1.5rem;
+    }
+
+    footer {
+      background: linear-gradient(90deg, var(--dark), #000);
+      color: white;
+      padding: 3.5rem 1.5rem;
+      text-align: center;
+    }
+
+    footer a { color: var(--yellow); text-decoration: none; font-weight: 700; }
+
+    .mobile-cta {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #34a853, #4285f4);
+      color: white;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 0 0 rgba(66,133,244,0.7);
+      animation: pulse 2s infinite;
+      z-index: 1000;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(66,133,244,0.6); }
+      70% { box-shadow: 0 0 0 14px rgba(66,133,244,0); }
+      100% { box-shadow: 0 0 0 0 rgba(66,133,244,0); }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-cta { display: inline-block; }
+      body { padding-bottom: 4rem; }
+      header h1 { font-size: 1.9rem; }
+    }
+
+    [data-lang] { display: none; }
+    [data-lang].active { display: block; }
+  .divider {
+      display: flex;
+      height: 6px;
+      margin: 1.5rem auto;
+      max-width: 1100px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .divider span { flex: 1; }
+    .divider .blue { background: #4285F4; }
+    .divider .red { background: #EA4335; }
+    .divider .yellow { background: #FBBC05; }
+    .divider .green { background: #34A853; }
+
+    .review-author {
+      color: #EA4335;
+      font-weight: 600;
+    }
+
+</style>
+</head>
+<body onload="initLang()">
+
+<header>
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-box">FR</div>
+      <span>FastReview</span>
+    </div>
+    <div class="lang-toggle">
+      <button id="btn-fr" class="active">FR</button>
+      <button id="btn-en">EN</button>
+    </div>
+  </div>
+
+  <div data-lang="fr" class="active">
+    <h1>Augmentez vos avis Google. Naturellement. Efficacement.</h1>
+    <p>Transformez chaque avis Google en une expérience ludique et engageante pour vos clients. Un véritable levier de croissance pour votre commerce.</p>
+    <a href="#" class="cta-button">Accéder à l’application</a>
+  </div>
+
+  <div data-lang="en">
+    <h1>Increase your Google reviews. Naturally. Effectively.</h1>
+    <p>Turn every Google review into a fun and engaging experience for your customers. A powerful growth lever for your business.</p>
+    <a href="#" class="cta-button">Access the app</a>
+  </div>
+</header>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Faites parler vos clients… avec plaisir</h2>
+    <p>Notre application permet aux commerçants et restaurateurs d’inviter leurs clients à laisser un avis Google via un <strong>processus gamifié</strong>. Après avoir laissé un avis, le client peut <strong>gagner instantanément un prix</strong> directement dans votre établissement : rabais, produit gratuit, boisson offerte, ou toute récompense que vous décidez.</p>
+    <p><strong>Résultat :</strong><br>✔ Plus d’avis<br>✔ Des avis récents et authentiques<br>✔ Une meilleure visibilité locale<br>✔ Plus de confiance, plus de clients</p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>Get customers talking — with pleasure</h2>
+    <p>Our application allows merchants and restaurant owners to invite customers to leave a Google review through a <strong>gamified process</strong>. After submitting a review, customers can <strong>instantly win a prize</strong> directly at your business: discounts, free items, complimentary drinks, or any reward you choose.</p>
+    <p><strong>Results:</strong><br>✔ More reviews<br>✔ Recent and authentic reviews<br>✔ Better local visibility<br>✔ More trust, more customers</p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Pourquoi ça fonctionne</h2>
+    <p>Les clients aiment jouer.<br>Les clients aiment gagner.<br>Et surtout, <strong>ils aiment quand c’est simple</strong>.</p>
+    <p>Notre solution :<br>– Réduit la friction du processus d’avis Google<br>– Augmente significativement le taux de participation<br>– Encourage des avis spontanés et sincères<br>– Respecte 100 % les règles de Google (aucun avis forcé)</p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>Why it works</h2>
+    <p>Customers love to play.<br>Customers love to win.<br>And above all, <strong>they love simplicity</strong>.</p>
+    <p>Our solution:<br>– Reduces friction in the Google review process<br>– Significantly increases participation rates<br>– Encourages spontaneous and genuine reviews<br>– Fully complies with Google policies (no forced reviews)</p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Conçu pour les commerçants</h2>
+    <p>Que vous soyez :<br>– Restaurant<br>– Café<br>– Salon de coiffure<br>– Boutique de détail<br>– Commerce de proximité</p>
+    <p>Notre application s’adapte à votre réalité.</p>
+    <p><strong>Vous contrôlez tout :</strong><br>– Les récompenses<br>– Les probabilités de gain<br>– Les messages affichés aux clients<br>– Les périodes d’activation</p>
+    <p>Aucune compétence technique requise.</p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>Built for merchants</h2>
+    <p>Whether you are a:<br>– Restaurant<br>– Café<br>– Hair salon<br>– Retail store<br>– Local business</p>
+    <p>Our application adapts to your reality.</p>
+    <p><strong>You stay in control:</strong><br>– Rewards<br>– Winning probabilities<br>– Customer-facing messages<br>– Activation periods</p>
+    <p>No technical skills required.</p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Des résultats concrets</h2>
+    <p>« Nous avons doublé notre nombre d’avis Google en moins de deux mois. Les clients adorent le concept. »<strong class="review-author">— Restaurant local, Montréal</strong></p>
+    <p>« Simple à installer, facile à gérer, et très efficace pour notre visibilité. »<strong class="review-author">— Boutique de détail, Québec</strong></p>
+    <p>« Les avis sont plus fréquents et plus positifs depuis qu’on utilise l’application. »<strong class="review-author">— Café indépendant, Laval</strong></p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>Real results</h2>
+    <p>“We doubled our Google reviews in less than two months. Customers love the concept.”<strong class="review-author">— Local restaurant, Montreal</strong></p>
+    <p>“Easy to set up, easy to manage, and very effective for our visibility.”<strong class="review-author">— Retail store, Quebec City</strong></p>
+    <p>“Reviews are more frequent and more positive since using the app.”<strong class="review-author">— Independent café, Laval</strong></p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Une expérience visible en magasin</h2>
+    <p>Nous offrons également des <strong>accessoires physiques</strong> pour maximiser l’impact :</p>
+    <p>– Présentoirs de comptoir<br>– Supports QR professionnels<br>– Affichages clairs et attrayants</p>
+    <p>Parfaits pour capter l’attention au moment clé : <strong>juste après l’expérience client</strong>.</p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>Visible in-store experience</h2>
+    <p>We also offer <strong>physical accessories</strong> to maximize impact:</p>
+    <p>– Countertop display stands<br>– Professional QR supports<br>– Clear, attractive signage</p>
+    <p>Perfect for capturing attention at the key moment: <strong>right after the customer experience</strong>.</p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Sécuritaire. Conforme. Fiable.</h2>
+    <p>– Aucun avis acheté<br>– Aucun contenu manipulé<br>– Aucun risque pour votre fiche Google</p>
+    <p>Notre système <strong>encourage</strong>, il n’impose jamais.<br>Vos avis restent 100 % authentiques.</p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>Safe. Compliant. Reliable.</h2>
+    <p>– No purchased reviews<br>– No manipulated content<br>– No risk to your Google Business Profile</p>
+    <p>Our system <strong>encourages</strong>, it never forces.<br>Your reviews remain 100% authentic.</p>
+  </div>
+</section>
+
+<footer>
+  <div data-lang="fr" class="active">
+    <p><strong class="review-author">Prêt à augmenter vos avis Google ?</strong></p>
+    <p>Rejoignez les commerçants qui transforment déjà leurs clients satisfaits en ambassadeurs visibles.</p>
+    <p><a href="#">Accédez au portail et abonnez-vous dès aujourd’hui</a></p>
+    <p style="margin-top:1.5rem;font-size:0.8rem;opacity:0.75;max-width:900px;margin:auto;">FastReview est indépendant de Google. Google et Google Avis sont des marques déposées de Google LLC. L’application respecte les politiques relatives aux avis clients et n’impose jamais la publication d’un avis. Les récompenses sont offertes par le commerçant.</p>
+  </div>
+
+  <div data-lang="en">
+    <p><strong class="review-author">Ready to increase your Google reviews?</strong></p>
+    <p>Join merchants who already turn satisfied customers into visible advocates.</p>
+    <p><a href="#">Access the portal and subscribe today</a></p>
+    <p style="margin-top:1.5rem;font-size:0.8rem;opacity:0.75;max-width:900px;margin:auto;">FastReview is independent from Google. Google and Google Reviews are trademarks of Google LLC. The application complies with review policies and never forces reviews. Rewards are provided by the merchant.</p>
+  </div>
+</footer>
+
+<a href="#" class="mobile-cta">FastReview</a>
+
+<script>
+  const userLang = navigator.language || navigator.userLanguage;
+  if (userLang && userLang.toLowerCase().startsWith('en')) {
+    setTimeout(() => switchLang('en'), 0);
+  }
+
+
+  const frBtn = document.getElementById('btn-fr');
+  const enBtn = document.getElementById('btn-en');
+  const blocks = document.querySelectorAll('[data-lang]');
+
+  function initLang() {
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang && userLang.toLowerCase().startsWith('en')) {
+      switchLang('en');
+    } else {
+      switchLang('fr');
+    }
+  }
+
+  function switchLang(lang) {
+    blocks.forEach(b => {
+      b.classList.remove('active');
+      if (b.getAttribute('data-lang') === lang) b.classList.add('active');
+    });
+    frBtn.classList.toggle('active', lang === 'fr');
+    enBtn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'fr' ? 'fr-CA' : 'en-CA';
+  }
+
+  frBtn.onclick = () => switchLang('fr');
+  enBtn.onclick = () => switchLang('en');
+</script>
+
+</body>
+</html>
