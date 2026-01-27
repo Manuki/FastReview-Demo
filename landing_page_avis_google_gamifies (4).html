@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastReview – Avis Google interactifs</title>
+
+  <style>
+    :root {
+      --blue: #4285F4;
+      --red: #DB4437;
+      --yellow: #F4B400;
+      --green: #0F9D58;
+      --dark: #202124;
+      --light: #f1f3f4;
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--dark);
+      line-height: 1.6;
+      background: linear-gradient(180deg, #f8f9fa, #e8f0fe);(180deg, #f8f9fa, #eef1f5);
+    }
+
+    header {
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      color: white;
+      padding: 4rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    .topbar {
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+    }
+
+    .logo-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg,var(--red),var(--yellow),var(--green),var(--blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+    }
+
+    .lang-toggle button {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.7rem;
+      margin-left: 0.3rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .lang-toggle button.active {
+      background: var(--yellow);
+      color: #000;
+    }
+
+    header h1 { font-size: 2.4rem; margin-bottom: 1rem; }
+    header p { font-size: 1.2rem; max-width: 900px; margin: 0 auto 2rem; }
+
+    .cta-button {
+      background: var(--yellow);
+      color: #000;
+      padding: 1rem 2.2rem;
+      font-weight: 700;
+      border-radius: 999px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    section {
+      padding: 3rem 1.2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--blue); }
+
+    .card {
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      padding: 2rem;
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(66,133,244,0.12);
+      margin-bottom: 1.5rem;
+    }
+
+    footer {
+      background: linear-gradient(90deg, var(--dark), #000);
+      color: white;
+      padding: 3.5rem 1.5rem;
+      text-align: center;
+    }
+
+    footer a { color: var(--yellow); text-decoration: none; font-weight: 700; }
+
+    .mobile-cta {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #34a853, #4285f4);
+      color: white;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 0 0 rgba(66,133,244,0.7);
+      animation: pulse 2s infinite;
+      z-index: 1000;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(66,133,244,0.6); }
+      70% { box-shadow: 0 0 0 14px rgba(66,133,244,0); }
+      100% { box-shadow: 0 0 0 0 rgba(66,133,244,0); }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-cta { display: inline-block; }
+      body { padding-bottom: 4rem; }
+      header h1 { font-size: 1.9rem; }
+    }
+
+    [data-lang] { display: none; }
+    [data-lang].active { display: block; }
+  .divider {
+      display: flex;
+      height: 6px;
+      margin: 1.5rem auto;
+      max-width: 1100px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .divider span { flex: 1; }
+    .divider .blue { background: #4285F4; }
+    .divider .red { background: #EA4335; }
+    .divider .yellow { background: #FBBC05; }
+    .divider .green { background: #34A853; }
+
+    .review-author {
+      color: #EA4335;
+      font-weight: 600;
+    }
+
+</style>
+</head>
+<body onload="initLang()">
+
+<header>
+  <div class="topbar">
+    <div class="logo">
+      <img src="FR-Logo-transp.png" alt="FastReview" width="100">
+      <span><h1>FastReview</h1></span>
+    </div>
+    <div class="lang-toggle">
+      <button id="btn-fr" class="active">FR</button>
+      <button id="btn-en">EN</button>
+    </div>
+  </div>
+
+  <div data-lang="fr" class="active">
+    <h1>Augmentez vos avis Google. Naturellement. Efficacement.</h1>
+    <p>Transformez chaque avis Google en une expérience ludique et engageante pour vos clients.</p>
+    <a href="https://adsphere.fastreview.ca/portail" class="cta-button">Accéder à l’application</a>
+  </div>
+
+  <div data-lang="en">
+    <h1>Increase your Google reviews. Naturally. Effectively.</h1>
+    <p>Turn every Google review into a fun and engaging experience for your customers.</p>
+    <a href="https://adsphere.fastreview.ca/portail" class="cta-button">Access the app</a>
+  </div>
+</header>
+
+
+<video controls style="max-width:100%; height:auto; display:block; margin:0 auto;">
+  <source src="FR-video.mp4" type="video/mp4">
+</video>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>La solution Fast Review</h2>
+    <p>Fast Review transforme chaque client satisfait en avis Google, grâce à un jeu interactif simple et efficace.</p>
+    <p>✔️ Le client joue<br>
+	✔️ Il laisse un avis<br>
+	✔️ Vous gagnez en visibilité<br>
+	✔️ Vous récupérez ses coordonnées</p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>The Fast Review solution</h2>
+    <p>Fast Review transforms every satisfied customer in a Google Review, using a simple and efficient interactive game.</p>
+    <p>✔️ The customer plays<br>
+	✔️ They leave a review<br>
+	✔️ You gain visibility<br>
+	✔️ You collect their contact details</p>
+	</div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Comment ça fonctionne</h2>
+		<p>1️. QR code visible dans l’établissement<br>
+		2️. Le client joue au jeu<br>
+		3️. Il laisse un avis Google<br>
+		4️. Vous gagnez un avis et un contact</p>
+		<p>Sans gestion. Sans friction.</p>
+	</div>
+
+  <div class="card" data-lang="en">
+    <h2>How it works</h2>
+		<p>1️. Visible QR code in your establishment<br>
+		2️. The customer plays the game<br>
+		3️. They leave a Google Review<br>
+		4️. You earn a review and a contact</p>
+		<p>No management. No friction.</p>
+	</div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<img src="happy-cust-3.jpg" alt="FastReview" width="100%">
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+    <h2>Résultats Concrets</h2>
+    <p>	•	Hausse rapide des avis Google<br>
+	•	Meilleur positionnement local & IA<br>
+	•	Plus de clients sans publicité<br>
+	•	Une base de données clients réutilisable</p>
+  </div>
+
+  <div class="card" data-lang="en">
+    <h2>Concrete Results</h2>
+    <p>	•	Fast increase in Google reviews<br>
+	•	Better local positioning & AI<br>
+	•	More customers without advertising<br>
+	•	A reusable database of customer data</p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+  <h2>Pourquoi Fast Review convertit plus</h2>
+	<p>Demander un avis = passif<br>
+	Faire jouer un client = action immédiate</p>
+<p>Fast Review déclenche une action, pas une intention.</p>
+
+  <div class="card" data-lang="en">
+  <h2>Why Fast Review converts more</h2>
+	<p>Asking for a review = passive<br>
+	Making a customer play = immediate action</p>
+<p>Fast Review triggers an action, not an intention.</p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<img src="happy-cust.jpg" alt="FastReview" width="100%">
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+  <h2>Ce qui est inclus</h2>
+	<p>•	Configuration complète<br>
+	•	Jeu personnalisé à votre image<br>
+	•	Présentoirs (chevalets) adaptés<br>
+	•	Support continu<br>
+	•	Accès à votre base clients</p>
+  </div>
+
+  <div class="card" data-lang="en">
+      <h2>What is included</h2>
+	<p>•	Complete configuration<br>
+	•	Customization of your game to your theme<br>
+	•	Adapted display stands<br>
+	•	Continued support<br>
+	•	Access to your customer database</p>
+  </div>
+</section>
+
+    <div class="divider">
+      <span class="blue"></span>
+      <span class="red"></span>
+      <span class="yellow"></span>
+      <span class="green"></span>
+    </div>
+
+<section>
+  <div class="card" data-lang="fr" class="active">
+  <h2>Tarification simple et claire</h2>
+<p>💳 À partir de 189 $ / mois par établissement<br>
+❌ Aucun contrat long terme<br>
+❌ Annulable en tout temps</p>
+  </div>
+
+  <div class="card" data-lang="en">
+ <h2>Clear and simple pricing</h2>
+<p>💳 From 189 $ / month per establishment<br>
+❌ No long-term contract<br>
+❌ Cancellable anytime</p>
+  </div>
+</section>
+
+	<div class="divider">
+	  <span class="blue"></span>
+	  <span class="red"></span>
+	  <span class="yellow"></span>
+	  <span class="green"></span>
+	</div>
+
+<script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
+<div class="commonninja_component pid-46c91ec9-906d-460e-8a46-712e182d501f"></div>
+
+<footer>
+  <div data-lang="fr" class="active">
+    <p><strong class="review-author">Dernier Appel</strong></p>
+    <p>Chaque client satisfait est une opportunité. Ne laissez pas vos concurrents les récolter à votre place.</p>
+    <p><a href="https://adsphere.fastreview.ca/portail">Accédez au portail et abonnez-vous dès aujourd’hui</a></p>
+    <p style="margin-top:1.5rem;font-size:0.8rem;opacity:0.75;max-width:900px;margin:auto;">FastReview est indépendant de Google. Google et Google Avis sont des marques déposées de Google LLC. L’application respecte les politiques relatives aux avis clients et n’impose jamais la publication d’un avis. Les récompenses sont offertes par le commerçant.</p>
+  </div>
+
+  <div data-lang="en">
+    <p><strong class="review-author">Last Call</strong></p>
+    <p>Every satisfied customer is an opportunity. Don't let your competition get them first.</p>
+    <p><a href="https://adsphere.fastreview.ca/portail">Access the portal and subscribe today</a></p>
+    <p style="margin-top:1.5rem;font-size:0.8rem;opacity:0.75;max-width:900px;margin:auto;">FastReview is independent from Google. Google and Google Reviews are trademarks of Google LLC. The application complies with review policies and never forces reviews. Rewards are provided by the merchant.</p>
+  </div>
+</footer>
+
+<a href="https://adsphere.fastreview.ca/portail" class="mobile-cta">FastReview</a>
+
+<script>
+  const userLang = navigator.language || navigator.userLanguage;
+  if (userLang && userLang.toLowerCase().startsWith('en')) {
+    setTimeout(() => switchLang('en'), 0);
+  }
+
+
+  const frBtn = document.getElementById('btn-fr');
+  const enBtn = document.getElementById('btn-en');
+  const blocks = document.querySelectorAll('[data-lang]');
+
+  function initLang() {
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang && userLang.toLowerCase().startsWith('en')) {
+      switchLang('en');
+    } else {
+      switchLang('fr');
+    }
+  }
+
+  function switchLang(lang) {
+    blocks.forEach(b => {
+      b.classList.remove('active');
+      if (b.getAttribute('data-lang') === lang) b.classList.add('active');
+    });
+    frBtn.classList.toggle('active', lang === 'fr');
+    enBtn.classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'fr' ? 'fr-CA' : 'en-CA';
+  }
+
+  frBtn.onclick = () => switchLang('fr');
+  enBtn.onclick = () => switchLang('en');
+</script>
+
+</body>
+</html>
